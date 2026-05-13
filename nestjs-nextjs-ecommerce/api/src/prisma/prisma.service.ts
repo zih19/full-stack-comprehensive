@@ -26,11 +26,11 @@ export class PrismaService
   }
 
   async onModuleInit() {
-     // It is a NestJS lifecycle hook that runs automatically when the module containing this service starts
-     // purpose: establish the connection with the database before the app starts handling requests
-     //          ensure all database operations work immediately
-     await this.$connect();
-     console.log('Database connected successfully!');
+    // It is a NestJS lifecycle hook that runs automatically when the module containing this service starts
+    // purpose: establish the connection with the database before the app starts handling requests
+    //          ensure all database operations work immediately
+    await this.$connect();
+    console.log('Database connected successfully!');
   }
 
   async onModuleDestroy() {
@@ -40,8 +40,8 @@ export class PrismaService
   }
 
   async cleanDatabase() {
-     // purpose: clean the data in the database that is typically used for testing or development
-     // It only works at the development environment rather than the production environment
+    // purpose: clean the data in the database that is typically used for testing or development
+    // It only works at the development environment rather than the production environment
     if (process.env.NODE_ENV === 'production') {
       throw new Error(
         'I cannot clean the database in the production environment!',
@@ -54,13 +54,11 @@ export class PrismaService
 
     // returns a promise that runs deletion in parallel for speed
     return Promise.all(
-       models.map((modelKey) => {
+      models.map((modelKey) => {
         if (typeof modelKey === 'string') {
           return this[modelKey].deleteMany();
         }
       }),
     );
   }
-
-  
 }

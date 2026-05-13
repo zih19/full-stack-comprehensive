@@ -13,9 +13,9 @@ import { ConfigService } from '@nestjs/config';
 export class AuthService {
   private readonly SALT_ROUNDS = 12; // The private property for SALT_ROUNDS is set to 12 by default.
   constructor(
-    private prisma: PrismaService, 
-    private jwtService: JwtService, 
-    private configService: ConfigService
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async login(loginDto: LoginDto): Promise<AutoResponseDto> {
@@ -23,11 +23,11 @@ export class AuthService {
 
     // find the user based on the email address and the password
     const user = await this.prisma.user.findUnique({
-        where: { email },
+      where: { email },
     })
 
-    if (!user || !await bcrypt.compare(password, user.password)) {
-        throw new UnauthorizedException("Invalid Email or Password");
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new UnauthorizedException('Invalid Email or Password');
     }
 
     // generate the new token and update its newest token to the user
@@ -36,15 +36,15 @@ export class AuthService {
 
     // return the new token and user details
     return {
-        ...tokens,
-        user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            role: user.role,
-        }
-    }
+      ...tokens,
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        role: user.role,
+      },
+    };
   }
 
   async register(registerDto: RegisterDto): Promise<AutoResponseDto> {
@@ -59,7 +59,9 @@ export class AuthService {
 
     // If the matching exists, the user will already appear.
     if (existingUser) {
-      throw new ConflictException('User with this email address already exists!');
+      throw new ConflictException(
+        'User with this email address already exists!',
+      );
     }
 
     try {
@@ -73,22 +75,21 @@ export class AuthService {
           email,
           password: hashedPassword,
           firstName,
-          lastName
+          lastName,
         },
         select: {
-            // select what specified fields you actually want to return
-            id: true,
-            email: true,
-            firstName: true,
-            lastName: true,
-            role: true,
-            password: false, // I do not want to return the password field for security reasons
-        }
-      })
+          // select what specified fields you actually want to return
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          role: true,
+          password: false, // I do not want to return the password field for security reasons
+        },
+      });
 
-      // generate the access token 
+      // generate the access token
       const tokens = await this.generateTokens(newUser.id, newUser.email);
-    
       // refresh the access token as below
       await this.updateRefreshToken(newUser.id, tokens.refreshToken);
 
@@ -100,24 +101,24 @@ export class AuthService {
 
     } catch (error) {
       console.error('Error during user registration:', error);
-      throw new InternalServerErrorException('An error occurred during registration. Please try again later!');
+      throw new InternalServerErrorException(
+        'An error occurred during registration. Please try again later!',
+      );
     }
   }
 
   // create a new function to generate both access token and refresh token
-  // Authentication: JWT token 
-  // [1] Passport.js (an authentication middleware used to verify user's identity) 
+  // Authentication: JWT token
+  // [1] Passport.js (an authentication middleware used to verify user's identity)
   // [2] nestjs/jwt packages (an official nestJS package that adds JWT web token to your application)
-  //     -> a wrapper around JSON web token library (jsonwebtoken) 
+  //     -> a wrapper around JSON web token library (jsonwebtoken)
   //     express: jsonwebtoken
   //     NestJS: nestjs/jwt (jwtModule, jwtService)
-  
   // This method actually returns a pair of JWT tokens for authentication: accessToken & refreshToken
   private async generateTokens(
-    userId: string, 
-    userEmail: string
-  ): Promise< { accessToken: string; refreshToken: string } > {
-    
+    userId: string,
+    userEmail: string,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     // build a JWT payload containing the user's id and email
     const payload = { sub: userId, userEmail };
 
@@ -127,7 +128,7 @@ export class AuthService {
 
     // use Promise.all to sign both tokens in parallel for better performance and efficiency
     const [accessToken, refreshToken] = await Promise.all([
-       
+
        // the access token used to authenticate the user 
        // inject service in the constructor function
        // JwtService comes from '@nestjs/jwt' package

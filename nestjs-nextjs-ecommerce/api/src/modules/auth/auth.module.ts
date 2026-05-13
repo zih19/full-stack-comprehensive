@@ -9,8 +9,7 @@ import { RefreshTokenStrategy } from './strategies/refresh-token-strategy';
 
 @Module({
   imports: [
-    PassportModule.register( { defaultStrategy: 'jwt' } ), // protect the route
-    
+    PassportModule.register({ defaultStrategy: 'jwt' }), // protect the route
     // register the JWT system asynchronously so that you can safely read values from the environment variable at the setup
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -19,16 +18,14 @@ import { RefreshTokenStrategy } from './strategies/refresh-token-strategy';
         // use the command to generate a long secured signature: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
         // copy and paste the generated string into the .env file as the value of JWT_SECRET
         secret: configService.get<string>('JWT_SECRET') ?? 'defaultsecret2025' , // the key used to sign and verify the token
-        signOptions: { 
+        signOptions: {
           expiresIn: Number(configService.get<number>('JWT_EXPIRES_IN', 900)) 
         }, // the expiration time of the token, set how long the token is valid 
-      })
-    }) // generate the token
-   
-    
+      }),
+    }), // generate the token
   ],
   providers: [
-    AuthService, 
+    AuthService,
     JWTStrategy, // add JWTStrategy to the providers array to make it available for dependency injection in the application
     RefreshTokenStrategy, // add RefreshTokenStrategy to the providers array to make it available for dependency injection in the application
   ],
