@@ -1,8 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CategoryResponseDto } from './dto/category-response.dto';
 import { QueryCategoryDto } from './dto/query-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from '@prisma/client';
 import { Prisma } from '@prisma/client';
 
@@ -131,6 +137,82 @@ export class CategoryService {
     }
 
     return this.formatCategory(category, Number(category._count.products));
+  }
+
+  // Part 5: update the category by the specified id
+  async updateCategory(
+    id: string,
+    updateCategoryDto: UpdateCategoryDto,
+  ): Promise<CategoryResponseDto> {
+    // Step 1: check if the category exists by the specified id
+    const existingCategory = await this.prisma.category.findUnique({
+      where: { id },
+    });
+
+    if (!existingCategory) {
+      throw new NotFoundException('Category Not Found!');
+    }
+
+    // Step 2: switch from one category to another category
+    if (
+      updateCategoryDto.slug &&
+      updateCategoryDto.slug !== existingCategory.slug
+    ) {
+      // extract this particular slug and avoid conflict exception
+      const slugTaken = await this.prisma.category.findUnique({
+        where: { slug: updateCategoryDto.slug },
+      });
+
+      if (slugTaken) {
+        throw new ConflictException(
+          `The category slug ${updateCategoryDto.slug} is already taken!`,
+        );
+      }
+    }
+
+    const updatedCategory = await this.prisma.category.update({
+      where: { id },
+      data: updateCategoryDto,
+      include: {
+        _count: {
+          select: { products: true }, // count the number of products in this category
+        },
+      },
+    });
+
+    return this.formatCategory(
+      updatedCategory,
+      Number(updatedCategory._count.products),
+    );
+  }
+
+  // Part 6: delete the category by the specified id
+  async deleteCategory(id: string): Promise<{ message: string }> {
+    const existingCategory = await this.prisma.category.findUnique({
+      where: { id },
+      include: {
+        _count: {
+          select: { products: true }, // count the number of products in this category
+        },
+      },
+    });
+
+    if (!existingCategory) {
+      throw new NotFoundException('Category Not Found!');
+    }
+
+    if (existingCategory._count.products > 0) {
+      throw new BadRequestException(
+        `Cannot delete category with ${existingCategory._count.products}. Remove or reassign first`,
+      );
+    }
+
+    // I need to delete this particular category if eligible
+    await this.prisma.category.delete({
+      where: { id },
+    });
+
+    return { message: 'Category deleted successfully!' };
   }
 
   private formatCategory(

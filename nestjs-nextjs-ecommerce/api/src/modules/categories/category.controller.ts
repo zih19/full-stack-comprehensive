@@ -1,4 +1,16 @@
-import { Controller, Post, UseGuards, Get, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Get,
+  Query,
+  Param,
+  Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Body,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -14,6 +26,7 @@ import { Role } from '@prisma/client';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CategoryResponseDto } from './dto/category-response.dto';
 import { QueryCategoryDto } from './dto/query-category.dto';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @ApiTags('Categories')
 @Controller('categories')
@@ -49,7 +62,7 @@ export class CategoryController {
     description: 'Forbidden.',
   })
   async createCategory(
-    createCategoryDto: CreateCategoryDto,
+    @Body() createCategoryDto: CreateCategoryDto,
   ): Promise<CategoryResponseDto> {
     return await this.categoryService.createCategory(createCategoryDto);
   }
@@ -123,5 +136,53 @@ export class CategoryController {
   })
   async findBySlug(@Param('slug') slug: string): Promise<CategoryResponseDto> {
     return await this.categoryService.findBySlug(slug);
+  }
+
+  // 5th API route: update the category (Admin only)
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth('jwt-auth')
+  @ApiOperation({
+    summary: 'Update Category (Admin only)',
+  })
+  @ApiBody({
+    type: UpdateCategoryDto,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Category updated successfully',
+    type: CategoryResponseDto,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Category not found',
+  })
+  @ApiResponse({
+    status: 409,
+    description: 'Category slug already',
+  })
+  async updateCategory(
+    @Param('id') id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ): Promise<CategoryResponseDto> {
+    return await this.categoryService.updateCategory(id, updateCategoryDto);
+  }
+
+  // 6th API route: delete the category (Admin only)
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiBearerAuth('jwt-auth')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Delete Category (Admin only)',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Cannot delete category with products',
+  })
+  async deleteCategory(@Param('id') id: string): Promise<{ message: string }> {
+    return await this.categoryService.deleteCategory(id);
   }
 }
