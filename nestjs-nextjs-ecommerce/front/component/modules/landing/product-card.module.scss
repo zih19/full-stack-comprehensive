@@ -1,0 +1,93 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  overflow: hidden; // ensures that the content inside the card does not overflow the card's boundaries
+  transition: all 0.3s ease; // the transition effect
+  background: #fff; // the background color of the card
+  cursor: pointer; // the cursor style when hovering over the card
+
+  &:hover {
+    transform: translateY(-4px); // move the card up by 4px when hovered
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); // add a subtle shadow to the card when hovered
+    border-color: #d4d4d4; // change the border color to a slightly darker gray when hovered
+  }
+
+  .imageWrapper {
+    position: relative; // the positioning of the imageWrapper, which is relative to its child elements
+    width: 100%; // the width of the imageWrapper
+    aspect-ratio: 1; // maintain a 1:1 aspect ratio for the imageWrapper
+    background: #f5f5f5; // a light gray background color
+    overflow: hidden; // The image does not overflow the boundaries of imageWrapper
+
+    img {
+      width: 100%; // The image takes the full width of the imageWrapper
+      height: 100%; // The image takes the full height of the imageWrapper
+      object-fit: cover; // The image is resized to cover the entire imageWrapper while maintaining its aspect ratio
+    }
+   }
+
+   .content {
+     padding: 1.25rem;
+     display: flex;
+     flex-direction: column;
+     gap: 0.5rem; // the gap between content items
+     flex: 1; // allows the content to be flexible to be grown and shrink
+
+     .category {
+       font-size: 0.75rem; // the font size of the category label
+       color: #666; // the text color of the category label
+       text-transform: uppercase; // transform the category text to uppercase
+       letter-spacing: 0.05em; // the letter spacing of the category label
+       font-weight: 500; // the font weight of the category label, which is medium
+     }
+
+     .name {
+       font-size: 1rem; // the font size of the product name
+       font-weight: 600; // the font weight of the product name
+       color: #000; // the text color of the product name
+       line-height: 1.4; // the line height of the product name for better readability
+       display: -webkit-box; // use a webkit specific property to create a flexible box layout for the product name
+       -webkit-line-clamp: 2; // limit the product name to 2 lines
+       -webkit-box-orient: vertical; // set the orientation of the flexible box to be vertical 
+       overflow: hidden;
+       line-clamp: 2; // limit the product name to 2 lines (for non-webkit browsers)
+     }
+
+     .description {
+        font-size: 0.875rem;
+        color: #737373;
+        line-height: 1.5;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-clamp: 2;
+    }
+
+     .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 0.75rem;
+
+        .price {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: #000;
+        }
+
+        .stock {
+          font-size: 0.75rem;
+          color: #16a34a;
+          font-weight: 500;
+
+          &.outOfStock {
+            color: #dc2626;
+          }
+        }
+     }
+   }
+}

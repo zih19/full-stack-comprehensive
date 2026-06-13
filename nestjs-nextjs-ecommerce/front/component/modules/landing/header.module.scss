@@ -1,0 +1,152 @@
+.header {
+  width: 100%;  // -> the width of the header
+  color: #000000; // -> the color of the header
+//   font-size: 100px; // -> the font size of the border
+  border-bottom: 1px solid #e5e5e5; // the thickness, the style, and the color of the border line
+  background: #fff; // the background color of the header
+  position: sticky; // the position of the header
+  top: 0; // define where the element sticks
+  z-index: 100; // define the stack level of the box in the current stacking level context
+
+  // the overall container
+  .container {
+    max-width: 1280px; // -> the limit for how wide the content can grow, keeping the layout readable
+    margin: 0 auto; // -> the margin of the container, which centers the content horizontally
+    padding: 1rem 2rem; // -> the padding of the container, which is 1rem vertically and 2rem horizontally
+                        // -> rem: the scalable unit for scss
+                        //    e.g. 1 rem = 16px, 2 rem = 32px, etc.
+    display: flex; // turns the container into a flex box, allowing for flexible layout and alignments of its children elements
+    justify-content: space-between; // -> the alignment of the children elements along the main axis, which is horizontal in this case
+    align-items: center; // -> the alignment of the children elements along the cross axis, which is vertical in this case
+                         // -> It is useful when items have different heights, ensuring they are centered vertically within the container
+  }
+
+  // the logo selector
+  .logo {
+    font-size: 1.5rem; // -> the font size of the logo, which is 24px
+    font-weight: 800; // -> the font weight of the logo, which is bold
+    color: #000; // -> the text color of the logo, which is black
+    letter-spacing: -0.02em; // control the space between letters
+                             // The negative value makes the letter closer together, while a positive value would space them further apart
+                             // 1em = 8 font size
+    &:hover{
+      opacity: 0.8; // -> the opacity of the logo when hovered, which is 80% visible
+                     // -> range from 0 to 1 -> 0 invisible, 1 fully visible
+    }
+  }
+
+  // the action selector
+  .action {
+    display: flex;
+    align-items: center;
+    gap: 1rem; // -> the gap between all action items, which is 1rem (16px)
+
+    // the cart button
+    .cartButton {
+        position: relative; // -> the position of the cart button, which is relative to its normal position
+        padding: 0.625rem; // -> the padding of the cart button, which is 0.625rem (10px) on all sides
+        background: transparent; // -> the background color of the cart button, which is transparent
+        color: #000; // -> the text color of the cart button, which is black
+        border: 1px solid #e5e5e5; // -> the border of the cart button, which is 1px solid with a light gray color
+        border-radius: 0.25rem; // -> the border radius of the cart button, which is 0.25rem (4px) for rounded corners
+        cursor: pointer; // -> the cursor style when hovering over the cart button, which is a pointer indicating it is clickable
+        transition: all 0.2s ease; // -> the transition effect for all properties of the cart button
+                                //     -> takes 0.2 seconds
+                                //     -> uses an ease timing function for a smooth transition
+        
+        // the overall layout for a cart button
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: #f5f5f5; // -> change the background color to light gray when hovered
+          border-color: #d4d4d4; // change the border color to a slighly darker gray when hovered
+        }
+
+        // the cart count badge
+        // -> the badge selector
+        .badge {
+          position: relative; 
+          top: -12px;
+          right: -15px;
+          background: #000;
+          color: #fff;
+          font-size: 0.625rem; // -> the font size of the badge, which is 0.625rem (10px)
+          font-weight: 500; // -> the font weight of the badge, which is medium
+          min-width: 18px; // -> the minimum width of the badge, which is 18px
+          height: 18px; // -> the height of the badge, which is also 18px
+          border-radius: 9px; // -> the border radius of the badge, which is 9px for a circular shape
+          display: flex; // -> turns the badge into a flex box, allowing for flexible layout
+          justify-content: center; // -> the alignment of the content within the badge along the main axis, which is horizontal in this case
+          padding: 0 4px; // -> the padding of the badge, which is 0 horizontally and 4px vertically
+        }
+    }
+
+    // the logout button selector
+    .logoutButton {
+      padding: 0.625rem 1.5rem; // -> the padding of the logout button, which is 0.625rem (10px) vertically and 1.5rem horizontally
+      background: #000; // -> the background color of the logout button, which is black
+      color: #fff; // -> the text color of the logout button, which is white
+      border: none; // -> removes the default border of the logout button
+      border-radius: 0.25rem; // -> the border radius of the logout button
+      font-size: 0.875rem; // -> the font size of the logout button, which is 0.875rem (14px)
+      font-weight: 500; // -> the font weight of the logout button, which is medium
+      cursor: pointer; // -> the cursor style when hovering over the logout button
+      transition: all 0.2s ease; // -> the transition effect for all properties of the logout button
+                                //     -> takes 0.2 seconds
+                                //     -> uses an ease timing function for a smooth transition
+      display: none; // At first, the logout button should be hidden because I have not logged in yet
+      
+      &:hover {
+       background: #333; // -> change the background color from black to dark gray when hovered
+      }
+      &:disabled {
+        opacity: 0.5; // -> the opacity of the logout button when disabled, which is 50% visible
+        cursor: not-allowed; // -> the cursor style when hovering over the disabled logout button
+      }
+
+    }
+
+    // the login page
+    .loginButton {
+      padding: 0.625rem 1.5rem;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      display: none;
+
+      &:hover {
+        background: #333;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+    }
+
+    // What happen if the screen size is larger than 768px (mobile devices)
+    @media (min-width: 768px) {
+      // The logout button will be displayed when the screen size is larger than 768px.
+      .logoutButton {
+        display: inline-flex; // -> the display style of the logout button, which is inline-flex to allow for flexible layout while still being inline with other elements
+      }
+      .loginButton {
+        display: inline-flex; // -> the display style of the login button, which is inline-flex to allow for flexible layout while still being inline with other elements
+      }
+    }
+  }
+
+  
+
+ 
+}
+

@@ -1,0 +1,100 @@
+.section {
+  width: 100%; // take the full width of the whole container
+  padding: 3rem 2rem; // 3rem: top-bottom, 2rem: left-right
+  min-height: 60vh; // the minimum height is at least 60% of the viewport height
+
+  display: flex;
+
+  .container {
+    max-width: 1200px; // the maximum width of the container is 1200px
+    margin: 0 auto; // margin: 0px, center the container horizontally
+  }
+
+  .header {
+    margin-bottom: 2rem; // the margin below the header is 2rem
+
+    h2 {
+        font-size: 2rem; // the font size of the title is 2rem (32px)
+        font-weight: 600; // the font weight of the title is 600 (semi-bold)
+        margin-bottom: 0.5rem; // the margin below the title is 0.5rem (8px)
+        letter-spacing: -0.02em; // the letter spacing of the title is -0.02em, which is a negative value to make the letters closer together
+    }
+
+    p {
+        color: #666; // the text color of the description is a medium gray
+        font-size: 1rem; // the font size of the description is 1rem (16px)
+    }
+  }
+
+  .searchBar {
+    margin-bottom: 2rem; // the margin below the search bar is 2rem
+
+    input {
+      width: 100%; // The input field takes the full width of the container
+      max-width: 500px; // the maximum width of the input field is 500px
+      padding: 0.75rem 1rem; // the padding of the input field: 0.75rem (top-bottom), 1rem (left-right)
+      border: 1px solid #e5e5e5; // the border style
+      border-radius: 0.375rem; // the border radius of the input field
+      font-size: 0.875rem; // the font size of the inpu field -> 0.875rem
+      outline: none; // remove the default outline when the input field is focused
+      transition: border-color 0.2s; // the transition effect for the border color when the input field is focused
+
+      &:focus {
+        border-color: #000; // change the border color to black when the input field is focused
+      }
+    }
+  }
+
+  // identify all products in the product list
+  .grid {
+    display: grid; // treat the container as a css grid
+    grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); // define the column structure of the grid
+                                                                 // Each column is at least 280px wide, 
+                                                                 // and the number of columns will automatically adjust to fill the available space
+    gap: 2rem; // The gap between grid items is 2rem (32px)
+    margin-bottom: 3rem; // The space below the grid is 3rem (48px)
+  }
+
+  .loading {
+    text-align: center; // center the loading text horizontally
+    padding: 4rem 1rem; // the padding of the loading state: 4rem (top-bottom), 1rem (left-right)
+    color: #666; // the text color of the loading state is medium gray
+  }
+
+  .pagination {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 3rem;
+
+    button {
+      padding: 0.5rem 1rem; // the padding of the pagination buttons: 0.5rem (top-bottom), 1rem (left-right)
+      background: #fff; // the background color: white
+      border: 1px solid #e5e5e5; // the border style of the pagination buttons
+      border-radius: 0.25rem; // the border radius of the pagination buttons
+      cursor: pointer; // the cursor style when hovering over the pagination buttons
+      transition: all 0.2s; // the transition effect for all properties of the pagination buttons
+
+      &:hover:not(:disabled) {
+        border-color: #000; // The border color becomes black
+      }
+
+      &:disabled {
+        opacity: 0.5; // reduce the opacity to indicate that the button is disabled
+        cursor: not-allowed; // change the cursor to indicate that the button is not clickable
+      }
+    }
+
+    // the page info text in the pagination section
+    .pageInfo {
+       font-size: 0.875rem; // The font size of the page info text is 0.875rem (14px)
+       color: #666; // The text color of the page info is medium gray
+    }
+
+  }
+
+
+
+  
+}
