@@ -13,9 +13,10 @@ export function useProducts() {
     page: 1,
     limit: 10,
     totalPages: 0,
-  })
+  });
+  const [product, setProduct] = useState<Product | null>(null); // the specified product based on the product ID
 
-  // The function getProducts is actually an asynchronous function.
+  // The function getProducts is actually an asynchronous function used to fetch all product details
   const getProducts = useCallback(
     async (params?: ProductQueryParams): Promise<ProductResponse | null> => {
       setIsLoading(true); // starts loading
@@ -32,7 +33,7 @@ export function useProducts() {
       } catch (error) {
             
             // return an error message
-            const message = "Failed to load products";
+            const message = "Failed to load products" + error;
             setError(message); // update the error state with the error message
             return null; // indicate the operation fails
       } finally {
@@ -41,6 +42,35 @@ export function useProducts() {
     }, []
   );
 
+  // the backend api used to fetch a specified product based on the product ID
+  const getProduct = useCallback(
+    async(id: string): Promise<Product | null> => {
+        if (!id) return null; // If id is not defined, return null
+
+        setIsLoading(true); // starts loading the result
+        setError(null); // clear the error
+
+        try {
+            const response = await ProductService.getProductById(id);
+
+            if (response) {
+                // If the response is fetched successfully, return the product data and update the state
+                setProduct(response); // update the product state with the fetched product data
+                return response; // return the full response
+            }
+         
+            throw new Error("Product not found!"); // If the product is not fetched successfully, we will throw an error
+        } catch (error) {
+
+            const message = "Failed to load product: " + error;
+            setError(message); // update the error state with the error message
+            return null; // indicate the operation fails
+        } finally {
+            setIsLoading(false); // ends loading the result;
+        }
+    }, []
+  );
+
   
-  return { isLoading, products, getProducts, error, meta };
+  return { isLoading, products, getProducts, getProduct, product, error, meta };
 }

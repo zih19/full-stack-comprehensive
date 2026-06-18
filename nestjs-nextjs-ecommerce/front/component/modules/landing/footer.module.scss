@@ -1,0 +1,70 @@
+.footer {
+  width: 100%;
+  border-top: 1px solid #e5e5e5; // a light gray border at the top of the footer
+  background: #fafafa; 
+  margin-top: auto;
+
+  .container {
+    max-width: 1280px; // the maximum width of the container
+    margin: 0 auto; // center the container horizontally
+    padding: 3rem 2rem 2rem; // 3rem: top and bottom 2rem: left and right
+
+    .content {
+      display: flex; // use flexbox for layout
+      justify-content: space-between; // spread the child elements across the horizontal axis evenly
+      gap: 4rem; // add the uniform space between each child element
+      margin-bottom: 2rem; // add space below the content section
+      flex-wrap: wrap; // allow the child elements to wrap to the next line if they exceed the width of the container
+
+      .brand {
+        flex: 1;
+        min-width: 250px; // ensures that the brand section does not shrink to small
+
+        h3 {
+          font-size: 1.5rem; // the font size of the brand name
+          font-weight: 600; // the font weight of the brand name
+          margin-bottom: 0.75rem; // the margin below the title
+        }
+
+        p {
+          color: #666; // the text color of the brand description
+          font-size: 0.875rem; // the font size of the brand description
+          line-height: 1.6; // the line height of the brand description for better readability
+        }
+      }
+
+      .section {
+         flex: 1; // allow the section to grow and fill the available space
+         min-width: 150px; // ensure that the section does not shrink too small
+
+         h4 {
+           font-size: 0.875rem; // the font size of the section title
+           font-weight: 600; // the font weight of the section title
+           text-transform: uppercase; // transform the section title to uppercase
+           letter-spacing: 0.05em; // the letter spacing of the section title
+           margin-bottom: 1rem; // the margin below the section title
+         }
+
+         ul {
+            list-style: none; // remove the default list style
+
+            li {
+                margin-bottom: 0.5rem; // the margin below each list item
+
+                a {
+                    // link
+                    color: #666;
+                    font-size: 0.875rem;
+                    transition: color 0.2s; // the transition effect for the link color when hovered
+
+                    &:hover {
+                        color: #000; // change the link color to black when hovered
+
+                    }
+                }
+            }
+          }
+        }
+    }
+  }
+}

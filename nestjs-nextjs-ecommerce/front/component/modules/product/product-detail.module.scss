@@ -1,0 +1,176 @@
+.section {
+  padding: 3rem 0;
+
+  .container {
+    max-width: 1200px; // The maximum width of the container is 1200px
+    margin: 0 auto; // center the content horizontally
+    padding: 0 1rem; // The horizontal padding of the container is 1rem (16px)
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem; // create a consistent spacing between items
+
+      @media (min-width: 768px) {
+        // When the minimum width of the viewport is 768px, we will use two-columns layout.
+        grid-template-columns: 1fr 1fr; // define the column structure of the grid
+      }
+
+      .imageWrapper {
+        position: relative; // set the position of the image wrapper to relative
+        width: 100%; // the width of the imageWrapper
+        aspect-ratio: 1; // maintain a 1:1 aspect ratio for the imageWrapper, regardless of the screen size
+        background-color: #fafafa; // The background color of the image wrapper is a light gray
+        border-radius: 0.5rem; // the border radius of the image wrapper
+        overflow: hidden; // The image does not overflow the boundaries of imageWrapper
+
+        img {
+          width: 100%; // The image takes the full width of the imageWrapper
+          height: 100%; // The image takes the full height of the imageWrapper
+          object-fit: cover; // The image is resized to cover the entire imageWrapper while maintaining its aspect ratio
+        }
+      }
+
+      .info {
+        display: flex; // use flexbox for layout
+        flex-direction: column; // arrange those items in column
+        gap: 1.5rem; // The gap between two items is 1.5rem (24px)
+
+        .catgeory {
+          display: inline-block; // allow elements to set side by side
+          font-size: 0.875rem; // the font size of the category label
+          color: #6b7280; // the color of the category label
+          text-transform: uppercase; // transform the category text to uppercase
+          letter-spacing: 0.05em; // the letter spacing of the category label
+        }
+
+        .title {
+          font-size: 2rem; // the font size of the product title
+          font-weight: 700; // the font weight of the product title
+          color: #111827; // the text color of the product title
+          margin: 0; // the margin of the product title
+        }
+
+        .price {
+          font-size: 2rem; // the font size of the product price
+          font-weight: 600; // the font weight of the product price
+          color: #111827; // the color of the product price
+        }
+
+        .stock {
+           display: inline-flex; // allow elements to set side by side
+           align-items: center; // align items vertically at the center
+           gap: 0.5rem; // the gap between two items is 0.5rem (8px)
+           font-size: 0.875rem; // the font size of the stock info
+           color: #059669; // the text color of the stock info
+           font-weight: 500; // the font weight of the stock info
+
+           &.outOfStock {
+            color: #dc2626; // change the text color to red if the product is out of stock
+           }
+
+           &:before {
+             content: ""; // createa psudeo element before the stock info text
+             display: block; 
+             width: 8px; // the width of the pseudo element
+             height: 8px; // the height of the psudeo element
+             border-radius: 50%; // make the psudeo element a circle
+             background: currentColor; // The background color of the psudeo element is the same as the text color of the stock info
+           }
+        }
+
+        .description {
+           font-size: 1rem; // the font size of the product description
+           line-height: 1.6; // the line height of the product description for better readability
+           color: #4b5563; // the text color of the product description
+        }
+
+        .divider {
+          height: 1px; // the height of the divider
+          background-color: #e5e7eb; // the background color of the divider
+          border: none; // I do not have any border
+        }
+
+        .quantitySection {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          .label {
+            font-size: 0.875rem; // the font size of the quantity label
+            font-weight: 500; // the font weight of the quantity label
+            color: #111827; // the text color of the quantity label
+          }
+
+          .quantityControl {
+            display: flex;
+            align-items: center; // center those items vertically
+            gap: 1rem;
+            width: fit-content;
+
+            .quantityButton {
+               width: 40px; // the width of the button
+               height: 40px; // the height of the button
+               border: 1px solid #d1d5db; // the border style of the button
+               background-color: #ffffff; // the backgrond color of the button
+               border-radius: 0.375rem; // the border radius of the button
+               font-size: 1.25rem; // the font size of the button
+               font-weight: 600; // the font weight of the button 
+               color: #111827; // the text color of the button
+               cursor: pointer; // change the cursor to a pointer when hovering over the button
+               transition: all 0.2s; // the transition effect for the button
+
+               &:hover:not(:disabled) {
+                 background-color: #f9fafb; // the background color
+                 border-color: #111827; // the border color
+               }
+
+               &:disabled {
+                 opacity: 0.5; // reduce the opacity of the button to 50% when disabled
+                 cursor: not-allowed; // change the cursor to indicate that the button is not clickable
+               }
+            }
+
+            .quantityValue {
+              min-width: 3rem; // the minimum width of the quantity value
+              text-align: center;
+              font-size: 1.125rem; // the font size of the quantity value
+              font-weight: 600; // the font weight of the quantity value
+              color: #111827; // the text color of the quantity value
+            }
+          }
+        }
+
+        .addToCartButton {
+          width: 100%; // the width of the button
+          padding: 1rem 2rem; // padding: top-bottom, left-right
+          background: #111827; // the background color of the button
+          color: #ffffff; // the text color of the button
+          border: none; // remove the default border of the button
+          border-radius: 0.5rem; // the border radius of the button
+          font-size: 1rem; // the font size of the button
+          font-weight: 600; // the font weight of the button
+          cursor: pointer; // change the cursor to a pointer when hovering over the button
+          transition: all 0.2s; // the transition effect for all properties of the button
+
+          &:hover:not(:disabled) {
+            background-color: #000000;
+            transform: translateY(-1px);
+          }
+
+          &:disabled {
+            opacity: 0.5; // reduce the opacity of the button to 50% when disabled
+            cursor: not-allowed; // change the cursor to indicate that the button is not clickable
+            transform: translateY(-1px);
+          }
+        }
+
+        .sku {
+          font-size: 0.875rem; // the font size of SKU
+          color: #6b7280; // the text color of SKU
+        }
+      }
+    }
+  }
+}
+

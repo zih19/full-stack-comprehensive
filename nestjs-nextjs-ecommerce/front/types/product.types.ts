@@ -7,8 +7,9 @@ export interface Product {
   price: number;
   stock: number;
   sku: string; // stock keeping unit, which is a unique identifier for inventory calls and business tracking
-  imageUrl: string | null; // the URL of the product image, which is a string
+  imageUrl: string; // the URL of the product image, which is a string
   category: string; // a category object -> Each product belongs to a category
+  categoryId: string; // the unique identifier of the category, which is a string
 }
 
 export interface ProductQueryParams {

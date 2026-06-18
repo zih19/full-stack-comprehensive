@@ -1,0 +1,40 @@
+.breadcrumbs {
+    padding: 1.5rem 0;
+    border: 1px solid #e5e7eb; // create a thin line under the breadcumbs
+
+    .container {
+        // the container section
+        max-width: 1200px; // The maximum width of the container is 1200px
+        margin: 0 auto; // center the container horizontally
+        padding: 0 1rem; // The horizontal padding of the container is 1rem (16px)
+
+        .nav {
+            // the navigation section
+            display: flex;
+            align-items: center; // center the items vertically
+            gap: 0.5rem; // The gap between items is 0.5rem.
+            flex-wrap: wrap; // allow the items to wrap to the next line if they exceed the width of the container
+            font-size: 0.875rem; // The font size of the navigation links is 0.875rem (14px)
+            color: #6b7280; // The text color of the navigation links is medium gray
+
+            .link {
+              color: #6b7280; // the text color of the link
+              text-decoration: none; // remove the default underline from the link
+              transition: color 0.2s; // the transition effect for the link color
+              
+              &:hover {
+                color: #111827; 
+              }
+            }
+
+            .separator {
+               color: #d1d5db; // the text color of the separator
+            }
+
+            .current {
+              color: #111827; // the text color of the current page link
+              font-weight: 500; // the font weight of the current page link 
+            }
+        }
+    }
+}

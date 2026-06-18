@@ -1,0 +1,35 @@
+.loading, .error {
+    min-height: 60vh; // The minimum height is at least 60% of the viewport height
+    display: flex; // use flexbox for layout
+    align-items: center; // center the content vertically
+    justify-content: center; // center the content horizontally
+}
+
+.container {
+    max-width: 1200px; // The maximum width of the container is 1200px
+    margin: 0 auto; // center the content horizontally
+    padding: 0 1rem;
+    text-align: center; // center the text content
+}
+
+.loading {
+   p {
+       font-size: 1.125rem; // the font size of the loading text is 1.125rem (18px)
+       color: #6b7280; // the text color of this paragraph
+   }
+}
+
+.error {
+   h2 {
+    font-size: 1.875rem; // the font size of the error title
+    font-weight: 700; // the font weight of the error title
+    color: #111827; // the text color of the error title
+    margin: 0 0 1rem 0; // the margin of the error title: 0 (top), 0 (right), 1rem (bottom), 0 (left)   
+   }
+   
+   p {
+    font-size: 1rem; // the font size of the error message
+    color: #6b7280; // the text color of the error message
+    margin: 0; // the margin of the error message  
+   }
+}
